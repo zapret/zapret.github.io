@@ -1,51 +1,73 @@
-﻿var zapretControllers = angular.module('zapretControllers', []);
+﻿
+var zapretData = {
+    'vpn': { what: "доступ к ресурсам сети интернет по шифрованным каналам VPN и SSH" },
+    'bitcoin': { what: "использование криптовалют для любых расчётов" },
+    'anime': { what: "фильмы жанра аниме" },
+    'skype': { what: 'звонки через сервисы IP-телефонии, в частности через Skype' },
+    'cats': { what: "картинки с котиками" },
+    'visa': { what: "расчёты картами Visa и Mastercard на территории Российской Федерации" },
+    'nix': { what: "программное обеспечение на платформе GNU/Linux" },
+    'win': { what: "программное обеспечение на платформе MS Windows" },
+    'git': { what: "систему контроля версий GIT" }    
+
+};
+
+var reasonData = {
+    's': "самоубийств среди подростков",
+    'cp': "распространения детской порнографии",
+    'ex': 'экстремизма',
+    'terr': 'проявления террористической деятельности'
+};
+
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getRandomKey(obj) {
+    var count = 0;
+    var pos = getRandomInt(1, Object.keys(obj).length);
+
+    for (var key in obj)
+        if (++count == pos)
+            return key;
+    return null;
+}
+
+function getRandomValue(obj) {
+    var key = getRandomKey(obj);
+    return obj[key];
+}
+
+function getNextUrl() {
+    return "/" + getRandomKey(zapretData) + "/" + getRandomKey(reasonData);
+}
+
+var zapretControllers = angular.module('zapretControllers', []);
+
+zapretControllers.controller(
+    'EmptyCtrl', [
+        '$scope', '$routeParams', '$location',
+        function($scope, $routeParams, $location) {
+            $location.path(getNextUrl());
+        }
+    ]);
+
 
 zapretControllers.controller(
     'MainCtrl',
-    ['$scope', '$routeParams', '$location',
-        function ($scope, $routeParams, $location) {
+    [
+        '$scope', '$routeParams', '$location',
+        function($scope, $routeParams, $location) {
 
-            var zapretData = {
-                '1': { what: "доступ к ресурсам сети интернет по шифрованным каналам VPN и SSH" },
-                '2': { what: "использование криптовалют для любых расчётов" },
-                '3': { what: "анимэ" },
-                '4': { what: 'звонки через сервисы IP-телефонии, в частности через Skype' },
-                '5': { what: "картинки с котиками" },
-                '6': {what: "расчёты картами Visa и Mastercard на территории Российской Федерации"}
-            };
-
-            var reasonData = {
-                '1': "самоубийств среди подростков",
-                '2': "распространения детской порнографии",
-                '3': 'экстремизма'                
-        };
-
-            function getRandomInt(min, max) {
-                return Math.floor(Math.random() * (max - min + 1)) + min;
-            }
-
-            function getRandomKey(obj) {                
-                var count = 0;
-                var pos = getRandomInt(1, Object.keys(obj).length);
-                
-                for (var key in obj)
-                    if (++count == pos)
-                        return key;
-                return null;
-            }
-
-            function getRandomValue(obj) {
-                var key = getRandomKey(obj);
-                return obj[key];
-            }
 
             function redirectToNext() {
-                $location.path("/" + getRandomKey(zapretData));
+                $location.path(getNextUrl());
             };
 
             function index() {
 
-                var id = $routeParams.id;
+                var id = $routeParams.what;
                 if (!id) {
                     redirectToNext();
                 }
@@ -56,12 +78,11 @@ zapretControllers.controller(
             }
 
             // events
-            $scope.new = function () {
+            $scope.new = function() {
                 redirectToNext();
             }
 
             index();
         }
-
-
     ]);
+

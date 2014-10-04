@@ -7,10 +7,14 @@
 zapretApp.config(['$routeProvider',
   function ($routeProvider) {
       $routeProvider
-
-        .when('/:id', {
+        
+        .when('/:what/:why', {
             templateUrl: 'views/main.html',
             controller: 'MainCtrl'
+        })
+        .when('/:id', {
+            templateUrl: 'views/main.html',
+            controller: 'EmptyCtrl'
         })
         .otherwise({
             templateUrl: 'views/main.html',
