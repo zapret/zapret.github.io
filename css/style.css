@@ -1,0 +1,17 @@
+﻿body {
+    padding-left: 10%;    
+    padding-right: 10%;
+     padding-top: 5%;
+     padding-bottom: 5%;
+}
+
+.center {
+    text-align: center;
+}
+.left {
+    text-align: left;
+}
+
+.header {
+    margin-bottom: 20px;
+}
