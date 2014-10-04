@@ -18,7 +18,7 @@ zapretApp.config(['$routeProvider',
         })
         .otherwise({
             templateUrl: 'views/main.html',
-            controller: 'MainCtrl'
+            controller: 'EmptyCtrl'
         });
   }]);
 
